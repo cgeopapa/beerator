@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import {firebaseApp} from "../lib/firebase";
 import AddButton from "../components/add-button";
 import {GetStaticProps} from "next";
 import {BeerModel} from "../lib/model/beer.model";
@@ -11,13 +10,8 @@ interface Props {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    const db = firebaseApp.firestore();
-    const snapshot = await db.collection('beers').get();
-    const beers: BeerModel[] = [];
-    snapshot.forEach((beer) => {
-        beers.push(beer.data() as BeerModel);
-    })
-
+    const res = await fetch('http://localhost:3000/api/beers');
+    const beers: BeerModel[] = res.ok ? await res.json() : [];
     return {
         props: {
             beers
@@ -28,7 +22,7 @@ export const getStaticProps: GetStaticProps = async () => {
 export default function Home(props: Props) {
     const {beers} = props;
     const beerCards = beers.map((beer: BeerModel) =>
-        <Beer beer={beer}></Beer>
+        <Beer key={beer.id} beer={beer}></Beer>
     );
     return (
         <div className={styles.container}>

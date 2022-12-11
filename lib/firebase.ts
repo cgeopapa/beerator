@@ -11,4 +11,4 @@ if(!firebaseApp.apps.length) {
         databaseURL: 'https://beerator-71150.firebaseio.com'
     })
 }
-export {firebaseApp};
+export default firebaseApp.firestore();
