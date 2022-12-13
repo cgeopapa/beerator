@@ -22,7 +22,7 @@ export const getStaticProps: GetStaticProps = async () => {
 export default function Home(props: Props) {
     const {beers} = props;
     const beerCards = beers.map((beer: BeerModel) =>
-        <Beer key={beer.id} beer={beer}></Beer>
+        <Beer key={beer.id} beer={beer} addNew={false}></Beer>
     );
     return (
         <div className={styles.container}>
